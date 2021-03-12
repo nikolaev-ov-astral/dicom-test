@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  dicom-test:
+    image: dicom-test:latest
+    build:
+      context: ./bin/Release/netcoreapp3.1/publish/
+      dockerfile: ../../../../Dockerfile
+    environment:
+      SOURCE_DIRECTORY: ./source
+    volumes:
+      - /media/nikolaev_ov/CEFE3C54FE3C36D5/:/app/source
+      - type: tmpfs
+        target: /app/memory/

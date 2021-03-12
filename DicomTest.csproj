@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ColorMine" Version="1.1.3" />
+    <PackageReference Include="fo-dicom" Version="4.0.6" />
+    <PackageReference Include="fo-dicom.Drawing" Version="4.0.6" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta11" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="TextCopy" Version="4.3.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- <ProjectReference Include="../Celsus.Common/FoDicom/Platform/NetCore/DICOM.NetCore.csproj" />
+    <ProjectReference Include="../Celsus.Common/FoDicom/Drawing/NetCore/DICOM.Drawing.NetCore.csproj" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SimpleITKCSharpManaged">
+      <HintPath>../../libs/itk.simple/SimpleITKCSharpManaged.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="../../libs/itk.simple/libSimpleITKCSharpNative.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

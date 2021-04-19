@@ -24,12 +24,12 @@
 
   <ItemGroup>
     <Reference Include="SimpleITKCSharpManaged">
-      <HintPath>../../libs/itk.simple/SimpleITKCSharpManaged.dll</HintPath>
+      <HintPath>libs/itk.simple/SimpleITKCSharpManaged.dll</HintPath>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../libs/itk.simple/libSimpleITKCSharpNative.so">
+    <Content Include="libs/itk.simple/libSimpleITKCSharpNative.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

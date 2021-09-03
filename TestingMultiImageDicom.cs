@@ -16,7 +16,6 @@ using System.Threading;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
-using TextCopy;
 
 namespace DicomTest
 {

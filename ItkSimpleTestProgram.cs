@@ -93,7 +93,7 @@ namespace DicomTest
 			foreach (var fileName in new[] { "IDENTITY&MONOCHROME1.dcm", "IDENTITY&MONOCHROME2.dcm", "INVERSE&MONOCHROME1.dcm", "INVERSE&MONOCHROME2.dcm", "REMOVED&MONOCHROME1.dcm", "REMOVED&MONOCHROME2.dcm", "IDENTITY&REMOVED.dcm", "INVERSE&REMOVED.dcm", "REMOVED&REMOVED.dcm" })
 			{
 				using var readStream = new FileStream(System.IO.Path.Combine(sourceDirectory, fileName), FileMode.Open, FileAccess.ReadWrite);
-				var decodedDicomImage = DicomDatasetExtensions.DecodeImage(readStream);
+				var decodedDicomImage = DicomDatasetExtensions.DecodeImage(readStream, out _);
 
 				// var decodedDicomImage = file.Dataset.ReadPixelData();
 

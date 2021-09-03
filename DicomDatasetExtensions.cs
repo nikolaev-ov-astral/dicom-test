@@ -22,7 +22,7 @@ namespace DicomTest
 {
 	static public class DicomDatasetExtensions
 	{
-		static public DicomDataset Compress(this DicomDataset original, DicomTransferSyntax dicomTransferSyntax, IDicomCodec codec, DicomJpegParams jpegParams)
+		static public DicomDataset Compress(this DicomDataset original, DicomTransferSyntax dicomTransferSyntax, IDicomCodec codec, DicomCodecParams jpegParams)
 		{
 			DicomDataset dataset = new DicomDataset(dicomTransferSyntax);
 			original.CopyTo(dataset);
@@ -104,9 +104,8 @@ namespace DicomTest
 			GetAverageValue(dataset, out average, out dispersion, out min, out max);
 		}
 
-		static public unsafe DecodedDicomImageModel DecodeImage(Stream stream)
+		static public unsafe DecodedDicomImageModel DecodeImage(Stream stream, out Dictionary<string, string> meta)
 		{
-			string sourceDirectory = Environment.GetEnvironmentVariable("SOURCE_DIRECTORY");
 			stream.Seek(0, SeekOrigin.Begin);
 			string filePath = System.IO.Path.Combine("memory", Thread.CurrentThread.ManagedThreadId.ToString());
 
@@ -120,6 +119,10 @@ namespace DicomTest
 				var reader = new itk.simple.ImageFileReader();
 				reader.SetFileName(filePath);
 				image = reader.Execute();
+				var writer = new itk.simple.ImageFileWriter();
+				writer.SetFileName("/mnt/c/Users/nikol/Desktop/CR.1.871.3.1522049724.50292.18240.95439262.3570939512.1.1.dcm");
+				writer.KeepOriginalImageUIDOff();
+				writer.Execute(image);
 				reader.Dispose();
 			}
 			finally { File.Delete(filePath); }
@@ -175,21 +178,28 @@ namespace DicomTest
 			result.PixelData = new byte[result.ChannelCount * result.ChannelSize * result.PixelCount];
 			Marshal.Copy(intPtr, result.PixelData, 0, result.PixelData.Length);
 
+			meta = new Dictionary<string, string>();
+			var keys  = image.GetMetaDataKeys();
+			foreach (var key in keys)
+			{
+				meta.Add(key, image.GetMetaData(key));
+			}
+
 			image.Dispose();
 
 			return result;
 		}
-		static public DecodedDicomImageModel DecodeImage(this DicomDataset dataset)
+		static public DecodedDicomImageModel DecodeImage(this DicomDataset dataset, out Dictionary<string, string> meta)
 		{
 			var dicomFile = new DicomFile(dataset);
 			var stream = new MemoryStream();
 			dicomFile.Save(stream);
-			return DecodeImage(stream);
+			return DecodeImage(stream, out meta);
 		}
 		static public unsafe SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.L16> ReadL16Image(this DicomDataset dataset)
 		{
 			const int pixelSize = 2;
-			var decodedImage = dataset.DecodeImage();
+			var decodedImage = dataset.DecodeImage(out _);
 			var pixelData = decodedImage.PixelData;
 			fixed (byte* p = &pixelData[0])
 				return Image.LoadPixelData<L16>(new ReadOnlySpan<L16>(p, pixelData.Length / pixelSize), decodedImage.Width, decodedImage.Height);
@@ -197,7 +207,7 @@ namespace DicomTest
 		static public unsafe SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgb48> ReadRgb48Image(this DicomDataset dataset)
 		{
 			const int pixelSize = 6;
-			var decodedImage = dataset.DecodeImage();
+			var decodedImage = dataset.DecodeImage(out _);
 			var grayscalePixelData = decodedImage.PixelData;
 
 			int pixelCount = decodedImage.Width * decodedImage.Height;

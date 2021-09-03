@@ -531,7 +531,7 @@ namespace DicomTest
 			image.Mutate(a =>
 			{
 				a.DrawText("1: (Информация о находке)", font, color, new PointF(100, 100));
-				a.DrawText(new TextGraphicsOptions(new GraphicsOptions(), new TextOptions() { HorizontalAlignment = HorizontalAlignment.Center }), "1", font, color, new PointF(objectCoord.Item1 + objectSize.Item1 * 0.5F, objectCoord.Item2 + objectSize.Item2 + 5));
+				a.DrawText(new DrawingOptions() {GraphicsOptions = new GraphicsOptions(), TextOptions = new TextOptions() { HorizontalAlignment = HorizontalAlignment.Center }}, "1", font, color, new PointF(objectCoord.Item1 + objectSize.Item1 * 0.5F, objectCoord.Item2 + objectSize.Item2 + 5));
 			});
 
 			var pixelData = image.ToPixelData();

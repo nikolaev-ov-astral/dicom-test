@@ -74,7 +74,7 @@ namespace DicomTest
 			double windowWidth = dataset.GetValue<double>(DicomTag.WindowWidth, 0);
 			byte[] pixelData;
 			using (FileStream readStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-				pixelData = DicomDatasetExtensions.DecodeImage(readStream).PixelData;
+				pixelData = DicomDatasetExtensions.DecodeImage(readStream, out _).PixelData;
 			// using FileStream stream1 = new FileStream("/media/nikolaev_ov/CEFE3C54FE3C36D5/pixelData.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite);
 			// pixelData = new byte[stream1.Length];
 			// stream1.Read(pixelData, 0, pixelData.Length);

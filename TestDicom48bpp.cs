@@ -41,7 +41,7 @@ namespace DicomTest
 			DicomFile dicomFile = DicomFile.Open(filePath);
 			DicomDataset dataset = dicomFile.Dataset;
 
-			var decodedImage = dataset.DecodeImage();
+			var decodedImage = dataset.DecodeImage(out _);
 			var sourcePixelData = decodedImage.PixelData;
 			ushort width = dataset.GetSingleValue<ushort>(DicomTag.Columns);
 			ushort height = dataset.GetSingleValue<ushort>(DicomTag.Rows);
